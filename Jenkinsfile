@@ -16,7 +16,7 @@ pipeline {
 				echo 'Create Container Image..'
 				script {
 					openshift.withCluster() { 
-						openshift.withProject("kevinlkc_dev") {
+						openshift.withProject("kevinlkc-dev") {
 							def buildConfigExists = openshift.selector("bc", "codelikethewind").exists() 
 							if(!buildConfigExists){ 
 								openshift.newBuild("--name=codelikethewind", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary") 
@@ -32,7 +32,7 @@ pipeline {
 				echo 'Deploying....'
 				script {
 					openshift.withCluster() { 
-						openshift.withProject("kevinlkc_dev") { 
+						openshift.withProject("kevinlkc-dev") { 
 							def deployment = openshift.selector("dc", "codelikethewind") 
 							if(!deployment.exists()){ 
 								openshift.newApp('codelikethewind', "--as-deployment-config").narrow('svc').expose() 
